@@ -1,0 +1,165 @@
+body {
+    font-family:'Play', Helvetica, Arial, sans-serif !important;
+    font-size: 1.7rem !important;
+}
+
+/* override highlightjs style */
+pre {
+    background-color:#ffffff !important;
+    border: 0px !important;
+    border-radius: 0px !important;
+    padding: 0px !important;
+}
+
+pre code {
+    font-size:1.5rem !important;  
+}
+
+/* desktop screen */
+@media (min-width: 992px) {
+    .sidebar {
+        position:fixed;
+        top:0;
+        left:0;
+        bottom:0;
+        width: 36rem;
+    }
+
+    .content {
+        margin-left: 36rem;
+    }
+
+    .content-body {
+        width: 100% !important;
+    }
+
+    .sidebar-content {
+        padding-left: 1rem !important;
+        width: 34rem !important;
+        position: absolute;
+        bottom: 10rem;
+    }
+
+    .sidebar-link {
+        text-align: left !important;
+    }
+
+    .sidebar-menu {
+        display: block !important;
+    }
+
+    .sidebar .menu-toggle {
+        display: none !important;
+    }
+
+    .sidebar-content ul li {
+        padding: 0rem !important;
+    }
+}
+
+.sidebar {
+    padding:1rem;
+    color:rgba(255,255,255,5);
+    background: #202020;
+}
+
+.sidebar-menu {
+     display: none;
+}
+
+.sidebar .menu-toggle {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0rem 1rem;
+    display: block;
+}
+
+.menu-toggle .bar1, .menu-toggle .bar2, .menu-toggle .bar3 {
+    width: 24px;
+    height: 2px;
+    background-color: #AAA;
+    margin: 5px 0;
+}
+
+.change .bar1, .change .bar2, .change .bar3 {
+    background-color: #FFF;
+    -webkit-transition: background-color 0.3s ease-out;
+    -moz-transition: background-color 0.3s ease-out;
+    -o-transition: background-color 0.3s ease-out;
+    transition: background-color 0.3s ease-out;
+}
+
+.sidebar a,
+.sidebar a:hover,
+.sidebar a:visited,
+.sidebar a:active,
+.sidebar a:focus
+{
+    color:rgba(255,255,255,5);
+    text-decoration: none;
+    outline:0;
+}
+
+.sidebar-content {
+    width: 80%;
+    margin:auto;
+    padding: 3rem 0rem;
+}
+
+.sidebar-content ul {
+    -webkit-padding-start: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.sidebar-content ul li {
+    padding: 0rem 0rem 0.3rem;
+}
+
+.sidebar h1 {
+    font-size: 4rem;
+}
+
+.sidebar-module {
+    padding: 1rem;
+}
+
+.sidebar-link {
+    text-align: center;
+}
+
+.content {
+    /*position: relative;*/
+    padding-top:4rem;
+    padding-bottom:4rem;
+    color: #202020;
+}
+
+.content-body {
+    width: 90%;
+    margin:auto;
+}
+
+.post-list-item {
+    padding-bottom:2rem;
+}
+
+.post-title {
+    padding-bottom: 0.5rem;
+}
+
+.post-attr {
+    padding-bottom: 2rem;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-65%, -60%);
+    
+    /* Set a width so it doesn't shrink unnecessarily */
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 0; /* Remove default well margin */
+}

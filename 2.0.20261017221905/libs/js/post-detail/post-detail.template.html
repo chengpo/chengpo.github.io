@@ -1,0 +1,25 @@
+<div class="content-body">
+    <loading-progress in-progress="$ctrl.inProgress"></loading-progress>
+    
+    <div class="container-fluid">
+        <div class="row post-title">
+            <div class="col-md-10 col-md-offset-1"><h1>{{$ctrl.metadata.title}}</h1></div>
+        </div>
+
+        <div class="row post-attr">
+            <div class="col-md-3 col-md-offset-1 text-muted small">{{$ctrl.metadata.crtime}}</div>
+            <div class="col-md-3 text-muted small">
+                <a class="text-muted" href="/posts?tag={{$ctrl.metadata.tag}}">{{$ctrl.metadata.tag}}</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div ng-bind-html="$ctrl.content | trustAsHtml"></div>
+            </div>
+        </div>
+        
+        <error-msg error-data="$ctrl.error"></error-msg>
+    </div>
+</div>
+
