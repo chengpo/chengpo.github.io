@@ -1,0 +1,62 @@
+.view-frame.ng-enter,
+.view-frame.ng-leave {
+    background: white;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.container-fluid.ng-enter,
+.fade-element.ng-enter, 
+.view-frame.ng-enter {
+  animation: 0.5s fade-in;
+}
+
+.fade-element.ng-leave,
+.view-frame.ng-leave {
+  animation: 0.5s fade-out;
+}
+
+
+.container-fluid.ng-enter.ng-enter-active,
+.view-frame.ng-enter.ng-enter-active,
+.view-frame.ng-move.ng-move-active {
+  display:block;
+  min-height: 120px;
+  opacity: 1;
+}
+
+.view-frame.ng-leave.ng-leave-active {
+  display:none;
+  height: 0;
+  opacity: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.upsidedown.upsidedown-add {
+  transform: rotate(0deg);
+}
+
+.upsidedown.upsidedown-add.upsidedown-active {
+  transform: rotate(180deg) !important;
+}
+
+.upsidedown {
+  transform: rotate(180deg) !important;
+  transition: transform 0.35s ease;
+}
+
+.menu-toggle-icon {
+  transform: rotate(0deg);
+  transition: transform 0.35s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
