@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><rss version="2.0"><channel><title>Monkey Blogger</title><link>https://chengpo.github.io/</link><description>Monkey Blogger - Some Random Thought</description><item><title>Fix Android 17 Usb Tethering</title><link>https://chengpo.github.io/posts/2026/1017/fix-android-17-usb-tethering</link><description>&lt;p&gt;My Pixel 8 USB tethering stopped working on Windows 10 after Android 17 update.
+Android 17 introduced several USB stack changes which impact USB tethering.&lt;/p&gt;
+&lt;p&gt;In windows device manager, Pixel 8 was recognized as a CDC NCM device in the other devices section and with a yellow triangle icon. Windows failed to properly recognize the device.&lt;/p&gt;
+&lt;p&gt;To fix this issue, we need to manually reinstall the driver.&lt;/p&gt;
+&lt;p&gt;Use the following steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connect Pixel 8 and enable &lt;strong&gt;USB tethering&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Go to &lt;strong&gt;Device Manager&lt;/strong&gt; ( prese Win + x and select &lt;strong&gt;Device Manager&lt;/strong&gt; )&lt;/li&gt;
+&lt;li&gt;Locate &lt;strong&gt;CDC NCM&lt;/strong&gt; in the &lt;strong&gt;Other device&lt;/strong&gt; section&lt;/li&gt;
+&lt;li&gt;Right click the device and select &lt;strong&gt;Update driver&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Choose &lt;strong&gt;Let me pick from a list of available drivers on my computer&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Select &lt;strong&gt;Network adapters&lt;/strong&gt; from hardware category list&lt;/li&gt;
+&lt;li&gt;Select &lt;strong&gt;Microsoft&lt;/strong&gt; - &lt;strong&gt;UsbNcm Host Device&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Confirm and Finish&lt;/li&gt;
+&lt;/ul&gt;
+</description><pubDate>Sat, 17 Oct 2026 18:47:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2026/1017/fix-android-17-usb-tethering</guid></item><item><title>Migrate To Static Website</title><link>https://chengpo.github.io/posts/2026/1012/migrate-to-static-website</link><description>&lt;p&gt;Fast forward 4 years, and a lot has happened.
+Heroku doesn't support free hosting anymore.  So I converted the blog into a static site on Github Pages.
+Instead of starting over again, I refactored the Kotlin code to generate static content and added Github Actions for automated deployment.
+It remains a web app under the hood, but all the dynamic behaviors have been shifted to frontend now.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Mon, 12 Oct 2026 00:53:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2026/1012/migrate-to-static-website</guid></item><item><title>Monkey Blogger 2.0</title><link>https://chengpo.github.io/posts/2022/0705/monkey-blogger-2.0</link><description>&lt;p&gt;It has been almost 4 years since the last post. I got some new thougts to this blog App. The previous code looks a bit of over enginerring. I spent the last long weekend to refactor the code and ended up with rewriting the entire backend with Kotlin. The good part is it has less code this time. Beyond that, I am more satified with the new dependency injection part. All components are organized as a tree hierarchy, instead of everyone can request everything from a giant provider, one component can only access to its explicitly declared dependencies.&lt;/p&gt;
+&lt;p&gt;For me, it's a good improvement.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Tue, 05 Jul 2022 11:25:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2022/0705/monkey-blogger-2.0</guid></item><item><title>Reduce Apk Size</title><link>https://chengpo.github.io/posts/2018/1021/reduce-apk-size</link><description>&lt;p&gt;It is always good to keep release APK small.
+So, the basic idea is locate all the unnecessary code / resources and remove them as much as you can.&lt;/p&gt;
+&lt;p&gt;The Android developer website has provided a good guideline for &lt;a href="https://developer.android.com/topic/performance/reduce-apk-size"&gt;reducing APK size&lt;/a&gt;, includes tips like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use vector graphics&lt;/li&gt;
+&lt;li&gt;Minimize and shrink libraries&lt;/li&gt;
+&lt;li&gt;Minimize and shrink resources&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Beyond those tips, I find more methods to reduce APK size even smaller.&lt;/p&gt;
+&lt;h2&gt;Remove Unused Resources From Libraries&lt;/h2&gt;
+&lt;p&gt;Libraries like &amp;quot;Android Support Library&amp;quot; and &amp;quot;Google Play Services&amp;quot;,
+as they are made to serve for general purpose, they contain resources which are not used for your App.&lt;/p&gt;
+&lt;p&gt;My App only supports English so far.
+So, it is safe for me to only keep English string resources.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; android {
+    defaultConfig {
+        ...
+        resConfigs &amp;quot;en&amp;quot;   // only keep the English resources
+    }
+ }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;My App only uses vector graphics.
+So, it is safe for me to remove all the alternative densities.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; android {
+    defaultConfig {
+        ...
+        resConfigs &amp;quot;nodpi&amp;quot;   // remove high densitiy resources
+    }
+ }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Minimize Code by R8&lt;/h2&gt;
+&lt;p&gt;R8 is a new Android SDK tool to shrink and obfuscation which outputs smaller DEX file than Proguard.
+It is still in preview stage, so use it on your own judgement.&lt;/p&gt;
+&lt;p&gt;Enable R8 by adding below line to gradle.properties file :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;android.enableR8 = true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;The final gradle.build file is as:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+android {
+    defaultConfig {
+        ...
+        resConfigs &amp;quot;en&amp;quot;   // only keep the English resources
+        resConfigs &amp;quot;nodpi&amp;quot;   // remove high densitiy resources
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            pseudoLocalesEnabled false
+            
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+       
+        debug {
+               applicationIdSuffix &amp;quot;.debug&amp;quot;
+         }
+    }
+    
+    ...
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The final gradle.properties file is as:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;org.gradle.jvmargs=-Xms256m -Xmx2048M -Dfile.encoding=UTF-8
+org.gradle.parallel=true
+org.gradle.daemon=true
+
+android.enableR8=true
+
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Sun, 21 Oct 2018 00:48:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2018/1021/reduce-apk-size</guid></item><item><title>Set Multiple Touch Delegates</title><link>https://chengpo.github.io/posts/2018/0907/set-multiple-touch-delegates</link><description>&lt;p&gt;The TouchDelegate is an useful helper class to expand touch area of small image or text view.
+The view whose touch area be changed is called the delegate view.
+To change the touch area, a TouchDelegate instance should be set to the delegate view's direct parent view.&lt;/p&gt;
+&lt;p&gt;Setting TouchDelegate is as simple as :&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;final View parentView = (View) delegateView.getParent();
+parentView.post(new Runnable() {
+    @Override
+    public void run() {
+        final Rect rect = new Rect();
+        delegateView.getHitRect(rect);
+        
+        // expand touch area
+        rect.top -= 100;
+        rect.left -= 100;
+        rect.right += 100;
+        rect.bottom += 100;
+        
+        parentView.setTouchDelegate(new TouchDelegate(rect, delegateView));
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A limitation of the setTouchDelegate() API is one view can only have one TouchDelegate.
+What if we need to expand multiple smaller views in one container view?&lt;/p&gt;
+&lt;p&gt;Thanks to 'Decorator Design Pattern', it is easy to add new behavior to TouchDelegate class.
+A CompositeTouchDelegate can forward touch event to a secondary TouchDelegate like :&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;public class CompositeTouchDelegate extends TouchDelegate {
+    private final TouchDelegate secondaryDelegate;
+    
+    public CompositeTouchDelegate(Rect bounds, View delegateView, TouchDelegate secondaryDelegate) {
+        super(bounds, delegateView);
+        this.secondaryDelegate = secondaryDelegate;
+    }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (secondaryDelegate == null) {
+            return super.onTouchEvent(event);
+        }
+        
+        final float x = event.getX();
+        final float y = event.getY();
+        
+        final result = super.onTouchEvent(event);
+        
+        // since super.onTouchEvent() transform event coordinates into the delegate view bound,
+        // we need to restore the original event coordinate for the secondary touch delegate.
+        event.setLocation(x, y);
+        return result || secondaryDelegate.onTouchEvent(event);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then it is easy to chain multiple TouchDelegate like :&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;final View parentView = (View) delegateView.getParent();
+parentView.post(new Runnable() {
+    @Override
+    public void run() {
+        final Rect rect = new Rect();
+        delegateView.getHitRect(rect);
+        
+        // expand touch area
+        rect.top -= 100;
+        rect.left -= 100;
+        rect.right += 100;
+        rect.bottom += 100;
+        
+        // get existing touch delegate
+        final TouchDelegate existingDelegate = parentView.getTouchDelegate();
+        
+        // make existing delegate as secondary touch delegate
+        final TouchDelegate compositeDelegate = new CompositeTouchDelegate(rect, delegateView, existingDelegate);
+        
+        parentView.setTouchDelegate(compositeDelegate);
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The sample code has a small issue. I don't consider checking overlapping delegate bounds.
+A better solution may automatically resolve the conflicting bounds.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Fri, 07 Sep 2018 23:58:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2018/0907/set-multiple-touch-delegates</guid></item><item><title>Develop Java Web App With Docker Container</title><link>https://chengpo.github.io/posts/2018/0110/develop-java-web-app-with-docker-container</link><description>&lt;p&gt;This is a note of setting up docker container for developing Java web app.&lt;br&gt;The current blog website is used as an example to run in docker container.&lt;/p&gt;
+&lt;h2&gt;Creat Dockerfile&lt;/h2&gt;
+&lt;p&gt;First of all, a Dockerfile is needed for specify the container environment.&lt;br&gt; BTW. The 'Dockerfile' is a file naming convention as the 'makefile' to make, 'pom.xml' to maven.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FROM openjdk:8-jre-alpine
+Add target /opt/my-blog/target
+WORKDIR /opt/my-blog/
+
+EXPOSE 80
+EXPOSE 8000
+
+ENV REMOTE_DEBUG='-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n'
+
+ENV JAVA_OPTS=&amp;quot;${REMOTE_DEBUG}&amp;quot;
+
+CMD [&amp;quot;target/bin/webapp&amp;quot;, &amp;quot;--port&amp;quot;, &amp;quot;80&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To keep the image as small as possible, I use openjdk:8-jre-alpine as my base image. The target folder is copied into the docker image. So later on we may start up my webapp inside the container.&lt;/p&gt;
+&lt;p&gt;JDWP is enabled as well for remote debugging. To me, this is a crucial feature of a devloping environment. I'd like to attach to the running java process with connection like 'localhost:8000' from my IDE for debugging.&lt;/p&gt;
+&lt;p&gt;Once the docker container started, it automatically executes command &amp;quot;target/bin/webapp --port 80&amp;quot; which starts up the web app and bind to port 80.&lt;/p&gt;
+&lt;h2&gt;Make docker image&lt;/h2&gt;
+&lt;p&gt;This is an easy step. Simply create docker image with command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker build -t my-blog .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As the command shows, I name the image as 'my-blog'.&lt;/p&gt;
+&lt;h2&gt;Run docker container&lt;/h2&gt;
+&lt;p&gt;Run the docker container with command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker run --rm -p 80:80 -v &amp;quot;${PWD}&amp;quot;/src/main/webapp:/opt/my-blog/src/main/webapp my-blog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This command starts up docker container with the 'my-blog' image.
+Furthermore, it bind the host 'webapp' directory to the 'webapp' directory in container environment. With this directory binding, I am able to update static content files without restarting the docker container.&lt;/p&gt;
+&lt;p&gt;Docker is a handy tool for rapidly recreating consistent developing environment. Hopefully this post is helpful for you as well.&lt;/p&gt;
+&lt;p&gt;That is it. Bye for now.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Wed, 10 Jan 2018 21:08:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2018/0110/develop-java-web-app-with-docker-container</guid></item><item><title>Duplicate Java Stream</title><link>https://chengpo.github.io/posts/2017/1226/duplicate-java-stream</link><description>&lt;p&gt;From time to time, I was wondering how to clone a stream object.&lt;br&gt;
+But it appears stream object is designed as 1 time use item, it does not support copying.
+So, I ends up with duplicate the code for generating the stream.&lt;br&gt;
+Something like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;final long totalPapers = postIdRepository.getPostIdsByTag(tag).count();
+final List&amp;lt;Paper&amp;gt; papers = postIdRepository.getPostIdsByTag(tag)
+                                            /* some intermediate operations */
+                                            .collect(Collectors.toList());
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Well, it works. Just works in an ugly way though. &lt;br&gt;&lt;/p&gt;
+&lt;p&gt;Eventually, I realize instead of copy-paste code for generating the same stream object.
+I can decouple the logic for generating stream with the Supplier function interface.&lt;/p&gt;
+&lt;p&gt;Here we go:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;final Supplier&amp;lt;Stream&amp;lt;Paper.Id&amp;gt;&amp;gt; postIds = () -&amp;gt; postIdRepository.getPostIdsByTag(tag);
+
+final long totalPapers = postIds.get().count();
+
+final List&amp;lt;Paper&amp;gt; papers = postIds.get()
+                                  /* some intermediate operations */
+                                  .collect(Collectors.toList());
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That's it. No more duplicate code.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Tue, 26 Dec 2017 10:04:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2017/1226/duplicate-java-stream</guid></item><item><title>Combine Multiple Commits Into One Before Merge To Master</title><link>https://chengpo.github.io/posts/2017/1214/combine-multiple-commits-into-one-before-merge-to-master</link><description>&lt;p&gt;I learned a useful git command today.&lt;/p&gt;
+&lt;p&gt;Let's say I am working on a large code refactoring which would introduce a long change list.&lt;br&gt;
+For the sake of maintenance, I make a working branch from my 'master' branch:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git checkout -b code-refactoring
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then I keep making small commit on my working branch. Obviously, I will end up with a bunch of
+small commits on the working branch.&lt;br&gt;
+After finish all the changes, I want to merge my commits back to the 'master' branch.&lt;/p&gt;
+&lt;p&gt;But wait a second. To keep the commit log clean, I'd all the relevant changes be combined into one commit,
+then merge it into my 'master' branch.&lt;/p&gt;
+&lt;p&gt;To do so, all I need is just spell the magic commands:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git checkout master
+$ git merge --squash code-refactoring
+$ git commit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voila, all the commits from code-refactoring branch be squashed into one large commit.&lt;br&gt;
+That's it.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Thu, 14 Dec 2017 23:19:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2017/1214/combine-multiple-commits-into-one-before-merge-to-master</guid></item><item><title>Backend Code Refactoring</title><link>https://chengpo.github.io/posts/2017/1211/backend-code-refactoring</link><description>&lt;p&gt;In the past few days, I refactored the backend code of this website. I prefer self explanatory code without &amp;quot;boilerplate&amp;quot;.&lt;br&gt;
+I also want the website can be directly runs outside of IDE which enable me to write and preview post from my Linux netbook more comfortable.&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;Here are the lessons I learned from this code refactoring:&lt;br&gt;&lt;/p&gt;
+&lt;h3&gt;Prefer optional over checking null pointer&lt;/h3&gt;
+&lt;p&gt;&amp;quot;Optional&amp;quot; is one of my favorite Java8 feature.&lt;br&gt;
+&amp;quot;Optional&amp;quot; postpones null pointer checking to the very end of the data processing flow. The code has no more worry to null pointer exception while processing data.
+I fell like all null pointer checking should be replaced by optional.&lt;/p&gt;
+&lt;p&gt;A simplified processing flow of loading post is as:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;Optional.ofNullable(readTextFile(path))
+        .map(content -&amp;gt; parseMarkdown(content))
+        .map(Optional::get)
+        .orElseThrow(() -&amp;gt; new WebApplicationException(404));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The readTextFile() may return NULL in case of failed to open the needed file.
+However, code has no worry to null pointer in the middle of the data processing.
+Null pointer is handled at the very end of the pipeline.&lt;/p&gt;
+&lt;h3&gt;Prefer injecting dependency over hard code dependency&lt;/h3&gt;
+&lt;p&gt;I use Jersey framework's build-in dependency injection lib (HK2) to inject dependency of controllers.
+The 'real' dependency implementation is decoupled from where it is be used.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;public class PostsController {
+    @Inject
+    PostRepository postRepository;
+
+    @Inject
+    PaperAdapter paperAdapter;
+    
+    public void getPost() {
+        // ...
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The PostController has no idea to the 'real' implementation of the PostRepository and PaperAdapter.
+Those 2 implementations could be easily replaced for testing purpose.&lt;/p&gt;
+&lt;h3&gt;Prefer concise code over verbosity code&lt;/h3&gt;
+&lt;p&gt;Programs must be written for people to read. I believe concise API is also readable and self-explanatory code.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt; @Override
+    public Optional&amp;lt;Paper&amp;gt; toCompletePage(Paper.Id id) {
+        return from(id)
+                .with(AppContext::realPagePath)
+                .by(TextReader::completeRead);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The code can be translated to plain English as &amp;quot;Convert to page content from paper id with page path by completed text reader&amp;quot;.
+I feel this is most concise code I could have for now. I cannot delete more word from them.&lt;/p&gt;
+&lt;p&gt;Does it sound good? Please leave comments on &lt;a href="https://github.com/chengpo/my-blog/issues" target="_blank"&gt; issues page &lt;/a&gt;. &lt;br&gt;
+Bye for now.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Mon, 11 Dec 2017 21:32:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2017/1211/backend-code-refactoring</guid></item><item><title>Properly Solve Handler Memory Leak</title><link>https://chengpo.github.io/posts/2017/0825/properly-solve-handler-memory-leak</link><description>&lt;p&gt;This may look like an old topic, as lots of documents or posts could be found on Google in recent days regards to the Handler Memory Leak issue. Even Android Lint will warn you immediately if you have Handler as an inner class in your code.
+However, the problem I found with the popular solution is most of them seem has blear understanding to the usage of Java Weak Reference.
+So, I think it still worth to drill deeper into this typical coding mistake.&lt;/p&gt;
+&lt;p&gt;First of all, the typical pattern of an inner Handler class may leak memory is as the below code clip shows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;public class LeakedActivity extends Activity {
+    private final Handler mLeakyHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // process the message
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // do something
+            }
+        }, 1000 * 60 * 10);  // post a message and delay its execution for 10 minutes
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Inner Handler class itself has no problem. The potential memory leaking is caused by the delayed Runnable object.
+Since the runnable object has the strong reference to it outer class LeakedActivity object, unless the Runnable object be released from the Main Thread, the LeakedActivity object won't be able to be recycled by GC even it has been destroyed. Literally, it may look like it's a small chance that the Activity be destroyed before the delayed Runnable be executed and unattached from Main Thread. However, please keep in mind an Activity could be destroyed by Android OS at anytime when configuration changed. Configuration change may caused by screen rotation, screen size change, device language change, etc. Although one activity instance be leaked few seconds may not a big issue, imaging every configuration change leaks 1 more activity object, accumulatively the leaked activity objects will eventually exhaust the Android VM heap and cause Out-Of-Memory exception.&lt;/p&gt;
+&lt;p&gt;What we could do to avoid leaking the destroyed activity object? Apparently, the first thought could be remove the strong reference of the LeakedActivity from the Runnable object. This is how the most popular solution proposes. So, we need to convert the inner Handler class to nested Handler class. Furthermore, the nested Handler class hold a weak reference to the Activity. Typically, the code may look like below:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;public class SampleActivity extends Activity {
+    private static class MyHandler extends Handler {
+        final WeakReference&amp;lt;SampleActivity&amp;gt; mActivityRef;
+        MyHandler(SampleActivity activity) {
+            mActivityRef = new WeakReference&amp;lt;&amp;gt;(activity); 
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+           SampleActivity activity = mActivityRef.get();
+           if (activity != null) {
+                // do something and call back to activity
+           }
+        }
+    }
+    
+    private MyHandler mHandler;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mHandler = new MyHandler(this);
+        // post a message and delay for 10 minutes
+        mHandler.sendEmptyMessageDelayed(0, 1000 * 60 * 10);    
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now since SampleActivity object is weak referenced by MyHandler object, SampleActivity object could be recycled when it is be destroyed even at that time MyHandler still has pending message in the Main Thread message queue.
+Everything looks fine, except one issue that MyHandler won't be able to send callback to SampleActivity if the weak reference returns NULL.&lt;/p&gt;
+&lt;p&gt;It may look like not an issue at the first time as we may assume weak reference returns NULL when the target object already be recycled by GC.
+However, Android document does not specify when the weak reference returns NULL. Base on my unit test, the behavior varies for different Android version. The weak reference may even returns NULL when SampleActivity object still alive in memory. It is because even the weak reference itself could be recycled when GC happens.&lt;/p&gt;
+&lt;p&gt;So, what's the better solution if we must guarantee the SampleActivity always get the callback from the MyHandler object?
+After revisit the first solution, I'd like to ask what the good for keeping pending Message for MyHandler when the SampleActivity already be destroyed. Fortunately, Handler class does have the API to cancel the pending Message object.
+Let's move on to the #2 solution:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-java"&gt;public class SampleActivity extends Activity {
+    private static class MyHandler extends Handler {
+        private SampleActivity mActivity;
+        MyHandler(SampleActivity activity) {
+            mActivity = activity; 
+        }
+
+        private void cancel() {
+            mActivity = null;
+            removeCallbacksAndMessages(null);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+           if (mActivity != null) {
+                // do somethin and call back to activity
+           }
+        }
+    }
+    
+    private MyHandler mHandler;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mHandler = new MyHandler(this);
+        // post a message and delay for 10 minutes
+        mHandler.sendEmptyMessageDelayed(0, 1000 * 60 * 10);    
+    }
+
+    @Override
+    proteced void onDestroy() {
+        mHandler.cancel();  
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The difference of the #2 solution is it immediately cancel the pending message and reset the SampleActivity strong reference for MyHandler object. No SampleActivity object could be leaked since its reference has been explicitly reset from the Handler. On the other hand, since MyHandler has the strong reference to SampleActivity, it guarantees MyHandler can always call back to SampleActivity until SampleActivity be destroyed.&lt;/p&gt;
+&lt;p&gt;Alright, it is already a long post. In the end, lesson learnt from this research:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Weak reference is only good for optional communication. Whether reference to the target object still alive or not create no harm to the system.&lt;/li&gt;
+&lt;li&gt;Anything be put into a pending queue has to be canceled immediately when they are no longer needed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That's it. Bye for now.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Fri, 25 Aug 2017 23:23:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2017/0825/properly-solve-handler-memory-leak</guid></item><item><title>Develop Android App With Android X86 Virtual Machine</title><link>https://chengpo.github.io/posts/2017/0619/develop-android-app-with-android-x86-virtual-machine</link><description>&lt;p&gt;Google suggests using x86 Android emulator to get the best developing user experience.&lt;/p&gt;
+&lt;p&gt;However, if you like me only have a desktop running Windows and unfortunately with AMD CPU.
+And for some reason has trouble with the Genymotion.
+Then the combination of VirtualBox + Android-x86 could be a good option to get rid of the painful ARM emulator.&lt;/p&gt;
+&lt;p&gt;I believe it won't be a trouble for everyone to download the latest Android-x86 livecd iso and VirtualBox installation file.
+So, I only list the steps I took to make a comfortable developing environment for myself.&lt;/p&gt;
+&lt;h3&gt;- Create separate partition for GRUB and root file system&lt;/h3&gt;
+&lt;p&gt;Firstly, the Android-x86 installation stuck at the step of GRUB installation.
+I managed to work around this problem by creating 2 partitions.
+The first partition is for GRUB installation. 100MB is good enough for GRUB.
+The second partition is for hosting Android-x86 system. I make it as large as 2GB.
+After the installation is done, I got around 850MB left.&lt;/p&gt;
+&lt;h3&gt;- Add customized video mode to get a 'portrait' display&lt;/h3&gt;
+&lt;p&gt;By default, Android-x86 runs in landscape mode. Unlike the regular emulator comes with Android SDK.
+VirtualBox does not support screen rotation. So, it won't be feasible to change display 'portrait / landscape' mode
+on the fly.
+However, we may create new GRUB menu item for a 'portrait' display.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Run command to add custom video mode to the virtual machine which named as &amp;quot;Android&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;VBoxManage setextradata &amp;quot;Android&amp;quot; &amp;quot;CustomVideoMode1&amp;quot; &amp;quot;480x800x16&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Boot Android-x86 into Debug mode and edit the &lt;strong&gt;/mnt/grub/menu.lst&lt;/strong&gt;.
+Copy and paste the first menu item (including the title, kernel and initrd lines).
+On the 'title' line, append '480x800'. On the 'kernel' line, append 'UVESA_MODE=480x800 DPI=240'&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;- Disable virtual network adapter to skip device configuration&lt;/h3&gt;
+&lt;p&gt;After the first reboot completed, Android OS would request Google Account login to complete the initial device configuration.
+As an testing emulator, logon Google Account is unnecessary. To avoid it attempting to connect Google service,
+I simply disconnect the virtual network adapter.&lt;/p&gt;
+&lt;h3&gt;- Connect adb to Android-x86 virtual machine via network&lt;/h3&gt;
+&lt;p&gt;Well, the last step is establishing adb connection to the running Android-x86 virtual machine.
+So, I could install / debug my Android App.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Firstly, press ALT-F1 to enter console after the Android home screen be shown.&lt;/li&gt;
+&lt;li&gt;Secondly, run command  &lt;strong&gt;netcfg&lt;/strong&gt; to get current IP address. For instance, in my case, the IP address is 192.168.56.101.&lt;/li&gt;
+&lt;li&gt;Thirdly, press ALT-F7 to return to the Android home screen.&lt;/li&gt;
+&lt;li&gt;At last, run below command in Window Command Prompt window for creating adb connection via network.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;C:\&amp;gt; adb connect 192.168.56.101
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;After all of the above steps, we may find the Android-x86 virtual machine in device list of &lt;strong&gt;&amp;quot;adb devices&amp;quot;&lt;/strong&gt; command&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All right, that's it. Hope it works for you too.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Mon, 19 Jun 2017 23:57:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2017/0619/develop-android-app-with-android-x86-virtual-machine</guid></item><item><title>0x7c00h</title><link>https://chengpo.github.io/posts/2017/0521/0x7c00h</link><description>&lt;p&gt;All right, I think it is the time for the first post on this new website now.&lt;/p&gt;
+&lt;p&gt;I am Android developer and also interested to web programming.
+I implement this website for playing around frontend skills.
+For people who interested, I write the backend with Java and frontend is base on AngularJS and Bootstrap.
+I want to talk more about the implementation details later. Java 8 new features are really exciting.&lt;/p&gt;
+&lt;p&gt;Most likely the posts are about my findings in my daily coding life.
+My favorite topics includes Android, Java, Linux, Design Pattern, so on and so forth.&lt;/p&gt;
+&lt;p&gt;My old blog is &lt;a href="http://cpaul.is-programmer.com/"&gt;cpaul.is-programmer.com&lt;/a&gt;, although I haven't update it for a long time.
+I will find a way to migrate the old posts to this new website someday.&lt;/p&gt;
+&lt;p&gt;It is going to be fun. Bye for now.&lt;/p&gt;
+&lt;!--eof--&gt;
+</description><pubDate>Sun, 21 May 2017 01:48:00 +0000</pubDate><guid>https://chengpo.github.io/posts/2017/0521/0x7c00h</guid></item></channel></rss>

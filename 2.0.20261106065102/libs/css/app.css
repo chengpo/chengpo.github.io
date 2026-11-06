@@ -1,0 +1,200 @@
+body {
+    font-family:'Play', Helvetica, Arial, sans-serif !important;
+    font-size: 1.7rem !important;
+}
+
+/* override highlightjs style */
+pre {
+    background-color:#ffffff !important;
+    border: 0px !important;
+    border-radius: 0px !important;
+    padding: 0px !important;
+}
+
+pre code {
+    font-size:1.5rem !important;  
+}
+
+/* desktop screen */
+@media (min-width: 992px) {
+    .sidebar {
+        position: fixed !important;
+        top:0;
+        left:0;
+        bottom:0;
+        width: 36rem !important;
+        box-shadow: 3px 0px 5px -2px #202020 !important;
+    }
+
+    .content {
+        margin-left: 36rem;
+    }
+
+    .content-body {
+        width: 100% !important;
+    }
+
+    .sidebar-content {
+        display: block !important;
+        padding-left: 1rem !important;
+        width: 34rem !important;
+        position: absolute;
+        bottom: 10rem;
+    }
+
+    .sidebar-content .sidebar-title {
+        display: block !important;
+    }
+
+    
+
+    .sidebar-menu {
+        display: block !important;
+    }
+
+    .sidebar-content ul li {
+        padding: 0rem !important;
+    }
+    
+    .title-bar {
+        display: none !important;
+    }
+}
+
+.sidebar {
+    top: 0;
+    position: sticky;
+    padding:1rem;
+    color:rgba(255,255,255,5);
+    background: #202020;
+    box-shadow: 0px 3px 5px -2px #202020;
+    z-index:10;
+}
+
+.sidebar-content {
+     display: none;
+}
+
+.sidebar .menu-toggle {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0rem 1rem;
+    display: block;
+}
+
+.sidebar-link {
+    text-align: left;
+}
+
+.title-bar {
+    min-height: 4rem; 
+    display:flex; 
+    align-items: center;
+}
+
+.title-bar .title-bar-item {
+    font-size: 2.3rem; 
+}
+
+.sidebar .menu-toggle-icon {
+    margin-top: 0.3rem;
+    font-size: 2.1rem;
+}
+
+.title-bar .title-bar-text {
+    margin-left: 1.6rem;
+}
+
+.white-icon {
+    color: white;
+}
+
+.sidebar a,
+.sidebar a:hover,
+.sidebar a:visited,
+.sidebar a:active,
+.sidebar a:focus
+{
+    color:rgba(255,255,255,5);
+    text-decoration: none;
+    outline:0;
+}
+
+.sidebar-content {
+    width: 80%;
+    margin:auto;
+    padding: 3rem 0rem;
+}
+
+.sidebar-content ul {
+    -webkit-padding-start: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.sidebar-content ul li {
+    padding: 0rem 0rem 0.3rem;
+}
+
+.sidebar h1 {
+    font-size: 4rem;
+}
+
+.sidebar-element {
+    padding: 1rem;
+}
+
+.content {
+    /*position: relative;*/
+    padding-top:4rem;
+    padding-bottom:4rem;
+    color: #202020;
+}
+
+.content-body {
+    width: 90%;
+    margin:auto;
+}
+
+.post-list-item {
+    padding-bottom:2rem;
+}
+
+.post-title {
+    padding-bottom: 0.5rem;
+}
+
+.post-attr {
+    padding-bottom: 2rem;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-65%, -60%);
+    
+    /* Set a width so it doesn't shrink unnecessarily */
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 0; /* Remove default well margin */
+}
+
+.btn-borderless {
+    border: none !important;
+}
+
+/* Optional: Removes the outline/box-shadow blue glow on click or focus */
+.btn-borderless:focus,
+.btn-borderless:active,
+.btn-borderless:hover {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('/external/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2') format('woff2');
+  font-display: swap;
+}
